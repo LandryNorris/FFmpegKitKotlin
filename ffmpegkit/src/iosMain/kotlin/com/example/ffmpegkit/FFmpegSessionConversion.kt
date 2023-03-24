@@ -1,6 +1,6 @@
 package com.example.ffmpegkit
 
-import cocoapods.ffmpegkit.Level
+import cocoapods.ffmpegkit.ReturnCode
 import cocoapods.ffmpegkit.Statistics as FFmpegStatistics
 import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.callbacks.StatisticsCallback
@@ -13,6 +13,17 @@ import cocoapods.ffmpegkit.Log as FFmpegLog
 
 fun FFmpeg.toShared() = FFmpegSession(getArguments()?.filterIsInstance<String>()
     ?: listOf(), getLogCallback().toShared())
+
+fun FFmpegSession.toPlatform() = cocoapods.ffmpegkit.FFmpegSession
+    .create(arguments, {},
+        { log ->
+            val commonLog = log?.toShared()
+            commonLog?.let {
+                addLog(it)
+                logCallback?.onLog(it)
+            }
+        },
+        statisticsCallback?.toPlatform())
 
 fun FFmpegLogCallback.toShared() = LogCallback { log -> this@toShared?.invoke(log.toPlatform()) }
 
@@ -35,3 +46,5 @@ fun Statistics.toPlatform() = FFmpegStatistics(sessionId, videoFrameNumber, vide
 
 fun FFmpegStatistics.toShared() = Statistics(getSessionId(), getVideoFrameNumber(), getVideoFps(),
     getVideoQuality(), getSize(), getTime(), getBitrate(), getSpeed())
+
+fun ReturnCode.toShared() = com.example.ffmpegkit.ReturnCode(getValue())

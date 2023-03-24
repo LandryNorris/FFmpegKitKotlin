@@ -7,7 +7,7 @@ import com.example.ffmpegkit.callbacks.LogCallback
 import kotlinx.datetime.Instant
 
 interface Session {
-    val logCallback: LogCallback
+    val logCallback: LogCallback?
     val sessionId: Long
     val createTime: Instant
     val startTime: Instant?

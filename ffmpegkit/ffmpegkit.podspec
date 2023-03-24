@@ -1,24 +1,24 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'shared'
+    spec.name                     = 'ffmpegkit'
     spec.version                  = '0.0.0'
     spec.homepage                 = ''
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = ''
-    spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/ffmpegkit.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '12.1'
     spec.dependency 'ffmpeg-kit-ios-https', '~> 5.1'
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':shared',
-        'PRODUCT_MODULE_NAME' => 'shared',
+        'KOTLIN_PROJECT_PATH' => ':ffmpegkit',
+        'PRODUCT_MODULE_NAME' => 'ffmpegkit',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build shared',
+            :name => 'Build ffmpegkit',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

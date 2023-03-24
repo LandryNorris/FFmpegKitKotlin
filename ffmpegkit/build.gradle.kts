@@ -1,10 +1,14 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("kotlinx-atomicfu")
+    //id("kotlinx-atomicfu")
+    id("org.jetbrains.dokka") version "1.7.20"
     id("maven-publish")
     kotlin("native.cocoapods")
 }
+
+group = "io.github.landrynorris"
+version = "0.0.4"
 
 kotlin {
     cocoapods {
@@ -40,7 +44,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "ffmpegkit"
         }
     }
 
@@ -89,5 +93,35 @@ android {
     compileSdk = 33
     defaultConfig {
         minSdk = 24
+    }
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+
+publishing {
+    publications {
+        withType<MavenPublication> {
+            artifact(javadocJar.get())
+            pom {
+                name.set("ffmpeg-kit")
+                description.set("FFmpegKit for KMM")
+                url.set("https://github.com/LandryNorris/JniUtils")
+                licenses {
+                    license {
+                        name.set("The MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("landrynorris")
+                        name.set("Landry Norris")
+                        email.set("landry.norris0@gmail.com")
+                    }
+                }
+            }
+        }
     }
 }

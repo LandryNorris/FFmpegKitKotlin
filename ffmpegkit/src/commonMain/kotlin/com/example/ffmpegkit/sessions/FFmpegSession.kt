@@ -3,14 +3,13 @@ package com.example.ffmpegkit.sessions
 import com.example.ffmpegkit.Log
 import com.example.ffmpegkit.SessionState
 import com.example.ffmpegkit.callbacks.LogCallback
+import com.example.ffmpegkit.callbacks.StatisticsCallback
 
 class FFmpegSession(arguments: List<String>,
-                    logCallback: LogCallback
+                    logCallback: LogCallback? = null,
+                    val statisticsCallback: StatisticsCallback? = null
 ): AbstractSession(arguments, logCallback) {
-    override val allLogs: List<Log>
-        get() = TODO("Not yet implemented")
-    override val output: String
-        get() = TODO("Not yet implemented")
+    override val allLogs = mutableListOf<Log>()
     override val isFFmpeg = true
     override val isFFprobe = false
     override val isMediaInformationSession = false

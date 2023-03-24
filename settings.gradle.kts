@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "FFmpegKit"
-include(":shared")
+include(":ffmpegkit")

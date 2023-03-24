@@ -9,7 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 abstract class AbstractSession(override val arguments: List<String>,
-                               override val logCallback: LogCallback
+                               override val logCallback: LogCallback?
 ): Session {
     private val clock get() = Clock.System
 
@@ -33,6 +33,8 @@ abstract class AbstractSession(override val arguments: List<String>,
         waitForAsynchronousMessagesInTransmit(timeout)
         return allLogs
     }
+
+    override val output get() = allLogsAsString
 
     override val allLogsAsString: String
         get() = runBlocking {
