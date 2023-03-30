@@ -1,7 +1,6 @@
 package com.example.ffmpegkit
 
 import com.example.ffmpegkit.callbacks.LogCallback
-import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.example.ffmpegkit.sessions.FFprobeSession
 import com.example.ffmpegkit.sessions.MediaInformationSession
 import kotlinx.coroutines.CoroutineScope
@@ -46,23 +45,29 @@ object FFprobeKit {
         return executeWithArguments(parseArguments(command), logCallback)
     }
 
-    @OptIn(ExperimentalTime::class)
-    suspend fun getMediaInformation(path: String, timeout: Int) {
+    suspend fun getMediaInformation(path: String, timeout: Int): MediaInformationSession {
         val args = createMediaInformationArgs(path)
-        val session = executeWithArguments(args)
+        val session = MediaInformationSession(args)
+        getMediaInformation(session, timeout)
 
-        val outputMeasured = measureTimedValue { session.getAllLogs(timeout) }
-        val output = outputMeasured.value
+        return session
+    }
 
-        val outputString = output
-            .joinToString("") { if(it.level == Level.AV_LOG_STDERR) it.message else "" }
-        println("Getting output took ${outputMeasured.duration}")
+    suspend fun getMediaInformation(session: MediaInformationSession, timeout: Int) {
+        session.startRunning()
+        val ffprobeSession = executeWithArguments(session.arguments)
+        session.complete(ffprobeSession.returnCode!!)
 
-        println("Output is $outputString")
+        if(ffprobeSession.returnCode?.isSuccess == true) {
+            val output = ffprobeSession.getAllLogs(timeout)
 
-        val ffprobeOutput = json.decodeFromString(FFprobeOutput.serializer(), outputString)
+            val outputString = output
+                .joinToString("") { if(it.level == Level.AV_LOG_STDERR) it.message else "" }
 
-        println("FFprobe output: $ffprobeOutput")
+            val ffprobeOutput = json.decodeFromString(FFprobeOutput.serializer(), outputString)
+
+            session.mediaInformation = mediaInformation(ffprobeOutput.format, ffprobeOutput.streams)
+        }
     }
 
     private fun createMediaInformationArgs(path: String): List<String> {

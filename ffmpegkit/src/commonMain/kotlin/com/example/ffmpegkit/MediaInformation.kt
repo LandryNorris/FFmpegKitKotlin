@@ -4,6 +4,33 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
+data class MediaInformation(
+    val format: String?,
+    val filename: String,
+    val formatName: String?,
+    val formatLongName: String?,
+    val startTime: Double,
+    val duration: Double,
+    val size: Long,
+    val bitrate: Long,
+    val tags: JsonElement?,
+
+    val streams: List<StreamInformation>
+)
+
+internal fun mediaInformation(format: MediaFormat, streams: List<StreamInformation>) = MediaInformation(
+    format = format.format,
+    filename = format.filename,
+    formatName = format.formatName,
+    formatLongName = format.formatLongName,
+    startTime = format.startTime,
+    duration = format.duration,
+    size = format.size,
+    bitrate = format.bitrate,
+    tags = format.tags,
+    streams = streams
+)
+
 @Serializable
 internal data class FFprobeOutput(
     val format: MediaFormat,
@@ -11,7 +38,7 @@ internal data class FFprobeOutput(
 )
 
 @Serializable
-data class MediaFormat(
+internal data class MediaFormat(
     val format: String? = null,
     val filename: String,
     val formatName: String? = null,
