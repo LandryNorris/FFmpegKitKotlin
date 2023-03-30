@@ -6,6 +6,7 @@ import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.callbacks.StatisticsCallback
 import cocoapods.ffmpegkit.StatisticsCallback as FFmpegStatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
+import com.example.ffmpegkit.sessions.FFprobeSession
 import com.example.ffmpegkit.stats.Statistics
 import cocoapods.ffmpegkit.FFmpegSession as FFmpeg
 import cocoapods.ffmpegkit.LogCallback as FFmpegLogCallback
@@ -24,6 +25,15 @@ fun FFmpegSession.toPlatform() = cocoapods.ffmpegkit.FFmpegSession
             }
         },
         statisticsCallback?.toPlatform())
+
+fun FFprobeSession.toPlatform() = cocoapods.ffmpegkit.FFprobeSession
+    .create(arguments, {}, { log ->
+        val commonLog = log?.toShared()
+        commonLog?.let {
+            addLog(it)
+            logCallback?.onLog(it)
+        }
+    })
 
 fun FFmpegLogCallback.toShared() = LogCallback { log -> this@toShared?.invoke(log.toPlatform()) }
 

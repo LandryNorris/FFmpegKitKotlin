@@ -3,12 +3,13 @@ plugins {
     id("com.android.library")
     //id("kotlinx-atomicfu")
     id("org.jetbrains.dokka") version "1.7.20"
+    kotlin("plugin.serialization") version "1.8.10"
     id("maven-publish")
     kotlin("native.cocoapods")
 }
 
 group = "io.github.landrynorris"
-version = "0.0.4"
+version = "0.0.15"
 
 kotlin {
     cocoapods {
@@ -54,6 +55,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
                 implementation("org.jetbrains.kotlinx:atomicfu:0.20.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
             }
         }
         val commonTest by getting {

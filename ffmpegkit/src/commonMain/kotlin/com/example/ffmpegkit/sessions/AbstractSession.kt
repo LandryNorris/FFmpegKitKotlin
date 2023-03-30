@@ -31,8 +31,11 @@ abstract class AbstractSession(override val arguments: List<String>,
 
     override suspend fun getAllLogs(timeout: Int): List<Log> {
         waitForAsynchronousMessagesInTransmit(timeout)
-        return allLogs
+        return logs
     }
+
+    override val allLogs: List<Log>
+        get() = runBlocking { getAllLogs(DEFAULT_TIMEOUT_FOR_ASYNCHRONOUS_MESSAGES_IN_TRANSMIT) }
 
     override val output get() = allLogsAsString
 
@@ -55,6 +58,10 @@ abstract class AbstractSession(override val arguments: List<String>,
         for(log in logs) {
             append(log.message)
         }
+    }
+
+    override fun addLog(log: Log) {
+        logs.add(log)
     }
 
     suspend fun waitForAsynchronousMessagesInTransmit(timeout: Int) {
@@ -82,6 +89,10 @@ abstract class AbstractSession(override val arguments: List<String>,
     fun fail(exception: Exception) {
         state = SessionState.FAILED
         endTime = clock.now()
+    }
+
+    override fun cancel() {
+        FFmpegKit.cancel(sessionId)
     }
 }
 

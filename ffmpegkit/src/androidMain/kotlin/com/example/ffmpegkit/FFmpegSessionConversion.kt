@@ -5,6 +5,8 @@ import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.arthenica.ffmpegkit.StatisticsCallback as FFmpegStatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
+import com.example.ffmpegkit.sessions.FFprobeSession
+import com.example.ffmpegkit.sessions.MediaInformationSession
 import com.example.ffmpegkit.stats.Statistics
 import kotlin.math.log
 import com.arthenica.ffmpegkit.FFmpegSession as FFmpeg
@@ -17,6 +19,13 @@ fun FFmpegSession.toPlatform() = com.arthenica.ffmpegkit.FFmpegSession
         addLog(commonLog)
         logCallback?.onLog(commonLog)
     }, statisticsCallback?.toPlatform())
+
+fun FFprobeSession.toPlatform() = com.arthenica.ffmpegkit.FFprobeSession
+    .create(arguments.toTypedArray(), {}, { log ->
+        val commonLog = log.toShared()
+        addLog(commonLog)
+        logCallback?.onLog(commonLog)
+    })
 
 fun StatisticsCallback.toPlatform() = FFmpegStatisticsCallback { statistics ->
     statistics?.toShared()?.let { onStatistics(it) }
