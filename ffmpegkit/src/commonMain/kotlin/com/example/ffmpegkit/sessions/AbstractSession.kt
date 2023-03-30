@@ -29,6 +29,10 @@ abstract class AbstractSession(override val arguments: List<String>,
 
     override val command get() = argumentsToString(arguments)
 
+    init {
+        addSession(this)
+    }
+
     override suspend fun getAllLogs(timeout: Int): List<Log> {
         waitForAsynchronousMessagesInTransmit(timeout)
         return logs

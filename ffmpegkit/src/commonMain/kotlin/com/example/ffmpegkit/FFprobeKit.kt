@@ -1,6 +1,7 @@
 package com.example.ffmpegkit
 
 import com.example.ffmpegkit.callbacks.LogCallback
+import com.example.ffmpegkit.sessions.DEFAULT_TIMEOUT_FOR_ASYNCHRONOUS_MESSAGES_IN_TRANSMIT
 import com.example.ffmpegkit.sessions.FFprobeSession
 import com.example.ffmpegkit.sessions.MediaInformationSession
 import kotlinx.coroutines.CoroutineScope
@@ -45,9 +46,20 @@ object FFprobeKit {
         return executeWithArguments(parseArguments(command), logCallback)
     }
 
-    suspend fun getMediaInformation(path: String, timeout: Int): MediaInformationSession {
+    suspend fun getMediaInformationFromCommand(command: String,
+                                               logCallback: LogCallback? = null
+    ): MediaInformationSession {
+        val args = parseArguments(command)
+        val session = MediaInformationSession(args, logCallback)
+        getMediaInformation(session, DEFAULT_TIMEOUT_FOR_ASYNCHRONOUS_MESSAGES_IN_TRANSMIT)
+
+        return session
+    }
+
+    suspend fun getMediaInformation(path: String, logCallback: LogCallback? = null,
+                                    timeout: Int): MediaInformationSession {
         val args = createMediaInformationArgs(path)
-        val session = MediaInformationSession(args)
+        val session = MediaInformationSession(args, logCallback)
         getMediaInformation(session, timeout)
 
         return session
@@ -55,7 +67,8 @@ object FFprobeKit {
 
     suspend fun getMediaInformation(session: MediaInformationSession, timeout: Int) {
         session.startRunning()
-        val ffprobeSession = executeWithArguments(session.arguments)
+        val ffprobeSession = executeWithArguments(session.arguments,
+            logCallback = session.logCallback)
         session.complete(ffprobeSession.returnCode!!)
 
         if(ffprobeSession.returnCode?.isSuccess == true) {
@@ -69,6 +82,9 @@ object FFprobeKit {
             session.mediaInformation = mediaInformation(ffprobeOutput.format, ffprobeOutput.streams)
         }
     }
+
+    fun listFFprobeSessions() = ffprobeSessions
+    fun listMediaInformationSessions() = mediaInformationSessions
 
     private fun createMediaInformationArgs(path: String): List<String> {
         return listOf("-v", "error", "-hide_banner", "-print_format", "json", "-show_format",

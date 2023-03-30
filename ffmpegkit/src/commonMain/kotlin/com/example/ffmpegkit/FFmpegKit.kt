@@ -9,11 +9,14 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.suspendCoroutine
 
 object FFmpegKit {
+    private val sessions = mutableListOf<FFmpegSession>()
+
     fun executeWithArgumentsBlocking(arguments: List<String>,
                                      logCallback: LogCallback? = null,
                                      statisticsCallback: StatisticsCallback? = null
     ): FFmpegSession {
         val session = FFmpegSession(arguments, logCallback, statisticsCallback = statisticsCallback)
+        sessions.add(session)
         ffmpegExecute(session)
         return session
     }
@@ -47,10 +50,12 @@ object FFmpegKit {
         return executeWithArguments(parseArguments(command), logCallback, statisticsCallback)
     }
 
+    fun listFFmpegSessions() = ffmpegSessions
+
     fun cancel(id: Long = 0) = cancelSession(id)
 
     fun listSessions(): List<FFmpegSession> {
-        return listOf() //ToDo: Implement history
+        return sessions
     }
 }
 
