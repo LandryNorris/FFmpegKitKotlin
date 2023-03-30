@@ -1,5 +1,6 @@
 package com.example.ffmpegkit
 
+import com.example.ffmpegkit.FFmpegKitConfig.ffmpegExecute
 import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession

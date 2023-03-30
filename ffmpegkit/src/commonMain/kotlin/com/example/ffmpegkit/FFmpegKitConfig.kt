@@ -3,16 +3,42 @@ package com.example.ffmpegkit
 import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
 import com.example.ffmpegkit.sessions.FFprobeSession
-import com.example.ffmpegkit.sessions.MediaInformationSession
 
-expect fun messagesInTransmit(id: Long): Int
+expect object FFmpegKitConfig {
 
-expect fun enableRedirection()
+    fun messagesInTransmit(id: Long): Int
 
-expect fun ffmpegExecute(session: FFmpegSession)
+    fun enableRedirection()
 
-expect fun cancelSession(id: Long)
+    fun disableRedirection()
 
-expect fun enableLogCallback(logCallback: LogCallback)
+    fun setFontconfigConfigurationPath(path: String): Int
 
-expect fun ffprobeExecute(session: FFprobeSession)
+    fun setFontDirectory(context: Any, path: String, fontNameMapping: Map<String, String>)
+
+    fun registerNewFFmpegPipe(context: Any): String
+
+    fun closeFFmpegPipe(ffmpegPipePath: String)
+
+    fun getFFmpegVersion(): String
+
+    fun getVersion(): String
+
+    fun isLTSBuild(): Boolean
+
+    fun getBuildDate(): String
+
+    fun setEnvironmentVariable(name: String, value: String): Int
+
+    fun ignoreSignal(signal: Signal)
+
+    fun ffmpegExecute(session: FFmpegSession)
+
+    fun cancelSession(id: Long)
+
+    fun enableLogCallback(logCallback: LogCallback)
+
+    fun ffprobeExecute(session: FFprobeSession)
+
+    fun setLogLevel(level: Level)
+}

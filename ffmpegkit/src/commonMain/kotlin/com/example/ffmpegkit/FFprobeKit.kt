@@ -1,5 +1,6 @@
 package com.example.ffmpegkit
 
+import com.example.ffmpegkit.FFmpegKitConfig.ffprobeExecute
 import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.sessions.DEFAULT_TIMEOUT_FOR_ASYNCHRONOUS_MESSAGES_IN_TRANSMIT
 import com.example.ffmpegkit.sessions.FFprobeSession
