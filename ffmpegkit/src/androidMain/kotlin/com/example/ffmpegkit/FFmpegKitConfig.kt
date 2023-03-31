@@ -2,12 +2,10 @@ package com.example.ffmpegkit
 
 import android.content.Context
 import com.arthenica.ffmpegkit.FFmpegKitConfig
-import com.arthenica.ffmpegkit.FFprobeKit
 import com.example.ffmpegkit.callbacks.LogCallback
+import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
 import com.example.ffmpegkit.sessions.FFprobeSession
-import com.example.ffmpegkit.sessions.MediaInformationSession
-import kotlinx.coroutines.runBlocking
 
 actual object FFmpegKitConfig {
 
@@ -59,9 +57,14 @@ actual object FFmpegKitConfig {
 
     actual fun cancelSession(id: Long) = com.arthenica.ffmpegkit.FFmpegKit.cancel(id)
 
-    actual fun enableLogCallback(logCallback: LogCallback) =
+    actual fun enableLogCallback(logCallback: LogCallback?) =
         FFmpegKitConfig.enableLogCallback {
-            logCallback.onLog(it.toShared())
+            logCallback?.onLog(it.toShared())
+        }
+
+    actual fun enableStatisticsCallback(statisticsCallback: StatisticsCallback?) =
+        FFmpegKitConfig.enableStatisticsCallback {
+            statisticsCallback?.onStatistics(it.toShared())
         }
 
     actual fun ffprobeExecute(session: FFprobeSession) {

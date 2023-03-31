@@ -2,6 +2,7 @@ package com.example.ffmpegkit
 
 import cocoapods.ffmpegkit.FFmpegKitConfig
 import com.example.ffmpegkit.callbacks.LogCallback
+import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
 import com.example.ffmpegkit.sessions.FFprobeSession
 import platform.posix.*
@@ -56,8 +57,11 @@ actual object FFmpegKitConfig {
 
     actual fun cancelSession(id: Long) = cocoapods.ffmpegkit.FFmpegKit.cancel(id)
 
-    actual fun enableLogCallback(logCallback: LogCallback) =
-        FFmpegKitConfig.enableLogCallback(logCallback.toPlatform())
+    actual fun enableLogCallback(logCallback: LogCallback?) =
+        FFmpegKitConfig.enableLogCallback(logCallback?.toPlatform())
+    
+    actual fun enableStatisticsCallback(statisticsCallback: StatisticsCallback?) =
+        FFmpegKitConfig.enableStatisticsCallback(statisticsCallback?.toPlatform())
 
     actual fun ffprobeExecute(session: FFprobeSession) {
         val platformSession = session.toPlatform()

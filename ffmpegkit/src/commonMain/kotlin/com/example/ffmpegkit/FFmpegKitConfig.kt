@@ -1,6 +1,7 @@
 package com.example.ffmpegkit
 
 import com.example.ffmpegkit.callbacks.LogCallback
+import com.example.ffmpegkit.callbacks.StatisticsCallback
 import com.example.ffmpegkit.sessions.FFmpegSession
 import com.example.ffmpegkit.sessions.FFprobeSession
 
@@ -36,7 +37,9 @@ expect object FFmpegKitConfig {
 
     fun cancelSession(id: Long)
 
-    fun enableLogCallback(logCallback: LogCallback)
+    fun enableLogCallback(logCallback: LogCallback?)
+
+    fun enableStatisticsCallback(statisticsCallback: StatisticsCallback?)
 
     fun ffprobeExecute(session: FFprobeSession)
 
