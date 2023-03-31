@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.landrynorris"
-version = "0.0.15"
+version = "0.0.16"
 
 kotlin {
     cocoapods {
