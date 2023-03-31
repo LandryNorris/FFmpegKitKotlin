@@ -35,6 +35,23 @@ fun FFprobeSession.toPlatform() = cocoapods.ffmpegkit.FFprobeSession
         }
     })
 
+fun cocoapods.ffmpegkit.LogRedirectionStrategy.toShared() = when(this) {
+    cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyNeverPrintLogs -> LogRedirectionStrategy.NeverPrintLogs
+    cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyAlwaysPrintLogs -> LogRedirectionStrategy.AlwaysPrintLogs
+    cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenGlobalCallbackNotDefined -> LogRedirectionStrategy.PrintLogsWhenGlobalCallbackNotDefined
+    cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenNoCallbacksDefined -> LogRedirectionStrategy.PrintLogsWhenNoCallbackDefined
+    cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenSessionCallbackNotDefined -> LogRedirectionStrategy.PrintLogsWhenSessionCallbackNotDefined
+    else -> error("Invalid log redirection strategy $this")
+}
+
+fun LogRedirectionStrategy.toPlatform() = when(this) {
+    LogRedirectionStrategy.NeverPrintLogs -> cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyNeverPrintLogs
+    LogRedirectionStrategy.AlwaysPrintLogs -> cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyAlwaysPrintLogs
+    LogRedirectionStrategy.PrintLogsWhenGlobalCallbackNotDefined -> cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenGlobalCallbackNotDefined
+    LogRedirectionStrategy.PrintLogsWhenNoCallbackDefined -> cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenNoCallbacksDefined
+    LogRedirectionStrategy.PrintLogsWhenSessionCallbackNotDefined -> cocoapods.ffmpegkit.LogRedirectionStrategy.LogRedirectionStrategyPrintLogsWhenSessionCallbackNotDefined
+}
+
 fun FFmpegLogCallback.toShared() = LogCallback { log -> this@toShared?.invoke(log.toPlatform()) }
 
 fun LogCallback.toPlatform(): FFmpegLogCallback =

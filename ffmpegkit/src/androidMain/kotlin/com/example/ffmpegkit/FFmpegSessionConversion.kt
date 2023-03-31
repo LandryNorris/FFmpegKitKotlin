@@ -1,5 +1,6 @@
 package com.example.ffmpegkit
 
+import com.arthenica.ffmpegkit.LogRedirectionStrategy
 import com.arthenica.ffmpegkit.Statistics as FFmpegStatistics
 import com.example.ffmpegkit.callbacks.LogCallback
 import com.example.ffmpegkit.callbacks.StatisticsCallback
@@ -47,3 +48,19 @@ fun FFmpegStatistics.toShared() = Statistics(sessionId, videoFrameNumber, videoF
 fun ReturnCode.toPlatform() = com.arthenica.ffmpegkit.ReturnCode(value)
 
 fun com.arthenica.ffmpegkit.ReturnCode.toShared() = ReturnCode(value)
+
+fun LogRedirectionStrategy.toShared() = when(this) {
+    LogRedirectionStrategy.NEVER_PRINT_LOGS -> com.example.ffmpegkit.LogRedirectionStrategy.NeverPrintLogs
+    LogRedirectionStrategy.ALWAYS_PRINT_LOGS -> com.example.ffmpegkit.LogRedirectionStrategy.AlwaysPrintLogs
+    LogRedirectionStrategy.PRINT_LOGS_WHEN_GLOBAL_CALLBACK_NOT_DEFINED -> com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenGlobalCallbackNotDefined
+    LogRedirectionStrategy.PRINT_LOGS_WHEN_NO_CALLBACKS_DEFINED -> com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenNoCallbackDefined
+    LogRedirectionStrategy.PRINT_LOGS_WHEN_SESSION_CALLBACK_NOT_DEFINED -> com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenSessionCallbackNotDefined
+}
+
+fun com.example.ffmpegkit.LogRedirectionStrategy.toPlatform() = when(this) {
+    com.example.ffmpegkit.LogRedirectionStrategy.NeverPrintLogs -> LogRedirectionStrategy.NEVER_PRINT_LOGS
+    com.example.ffmpegkit.LogRedirectionStrategy.AlwaysPrintLogs -> LogRedirectionStrategy.ALWAYS_PRINT_LOGS
+    com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenGlobalCallbackNotDefined -> LogRedirectionStrategy.PRINT_LOGS_WHEN_GLOBAL_CALLBACK_NOT_DEFINED
+    com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenNoCallbackDefined -> LogRedirectionStrategy.PRINT_LOGS_WHEN_NO_CALLBACKS_DEFINED
+    com.example.ffmpegkit.LogRedirectionStrategy.PrintLogsWhenSessionCallbackNotDefined -> LogRedirectionStrategy.PRINT_LOGS_WHEN_SESSION_CALLBACK_NOT_DEFINED
+}

@@ -51,9 +51,9 @@ object FFmpegKit {
         return executeWithArguments(parseArguments(command), logCallback, statisticsCallback)
     }
 
-    fun listFFmpegSessions() = ffmpegSessions
+    fun listFFmpegSessions() = FFmpegKitConfig.ffmpegSessions
 
-    fun cancel(id: Long = 0) = cancelSession(id)
+    fun cancel(id: Long = 0) = FFmpegKitConfig.cancelSession(id)
 
     fun listSessions(): List<FFmpegSession> {
         return sessions

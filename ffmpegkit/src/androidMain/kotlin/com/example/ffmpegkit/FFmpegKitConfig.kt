@@ -72,4 +72,12 @@ actual object FFmpegKitConfig {
     }
 
     actual fun setLogLevel(level: Level) = FFmpegKitConfig.setLogLevel(com.arthenica.ffmpegkit.Level.from(level.value))
+
+    actual fun getPlatform() = "Android"
+
+    actual fun getLogRedirectionStrategy() = FFmpegKitConfig.getLogRedirectionStrategy().toShared()
+
+    actual fun setLogRedirectionStrategy(strategy: LogRedirectionStrategy) {
+        FFmpegKitConfig.setLogRedirectionStrategy(strategy.toPlatform())
+    }
 }

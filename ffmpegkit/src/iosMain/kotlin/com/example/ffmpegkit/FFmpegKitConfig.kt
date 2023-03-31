@@ -67,4 +67,12 @@ actual object FFmpegKitConfig {
     }
 
     actual fun setLogLevel(level: Level) = FFmpegKitConfig.setLogLevel(level.value)
+
+    actual fun getPlatform() = "iOS"
+
+    actual fun getLogRedirectionStrategy() = FFmpegKitConfig.getLogRedirectionStrategy().toShared()
+
+    actual fun setLogRedirectionStrategy(strategy: LogRedirectionStrategy) {
+        FFmpegKitConfig.setLogRedirectionStrategy(strategy.toPlatform())
+    }
 }

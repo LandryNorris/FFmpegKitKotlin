@@ -84,8 +84,8 @@ object FFprobeKit {
         }
     }
 
-    fun listFFprobeSessions() = ffprobeSessions
-    fun listMediaInformationSessions() = mediaInformationSessions
+    fun listFFprobeSessions() = FFmpegKitConfig.ffprobeSessions
+    fun listMediaInformationSessions() = FFmpegKitConfig.mediaInformationSessions
 
     private fun createMediaInformationArgs(path: String): List<String> {
         return listOf("-v", "error", "-hide_banner", "-print_format", "json", "-show_format",

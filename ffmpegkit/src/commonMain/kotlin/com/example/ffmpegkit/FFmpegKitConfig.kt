@@ -41,4 +41,21 @@ expect object FFmpegKitConfig {
     fun ffprobeExecute(session: FFprobeSession)
 
     fun setLogLevel(level: Level)
+
+    fun getPlatform(): String
+
+    fun getLogRedirectionStrategy(): LogRedirectionStrategy
+
+    fun setLogRedirectionStrategy(strategy: LogRedirectionStrategy)
 }
+
+fun FFmpegKitConfig.sessionStateToString(state: SessionState) = when(state) {
+    is SessionState.RUNNING -> "RUNNING"
+    is SessionState.CREATED -> "CREATED"
+    is SessionState.FAILED -> "FAILED"
+    is SessionState.COMPLETED -> "COMPLETED"
+}
+
+var logCallback: LogCallback? = null
+var globalLogRedirectionStrategy: LogRedirectionStrategy =
+    LogRedirectionStrategy.PrintLogsWhenNoCallbackDefined
