@@ -30,7 +30,7 @@ abstract class AbstractSession(override val arguments: List<String>,
     override val command get() = argumentsToString(arguments)
 
     init {
-        addSession(this)
+        FFmpegKitConfig.addSession(this)
     }
 
     override suspend fun getAllLogs(timeout: Int): List<Log> {
@@ -77,7 +77,8 @@ abstract class AbstractSession(override val arguments: List<String>,
         }
     }
 
-    fun thereAreAsynchronousMessagesInTransmit() = messagesInTransmit(sessionId) != 0
+    fun thereAreAsynchronousMessagesInTransmit() =
+        FFmpegKitConfig.messagesInTransmit(sessionId) != 0
 
     fun startRunning() {
         state = SessionState.RUNNING
