@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.landrynorris"
-version = "0.0.16"
+version = "0.0.21"
 
 kotlin {
     cocoapods {
@@ -18,7 +18,7 @@ kotlin {
 
         ios.deploymentTarget = "12.1"
 
-        pod("ffmpeg-kit-ios-https", moduleName = "ffmpegkit", version = "~> 5.1")
+        pod("ffmpeg-kit-ios-full-gpl", moduleName = "ffmpegkit", version = "~> 5.1")
 
         framework {
             isStatic = true

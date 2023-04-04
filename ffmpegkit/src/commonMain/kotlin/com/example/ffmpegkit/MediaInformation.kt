@@ -9,10 +9,10 @@ data class MediaInformation(
     val filename: String,
     val formatName: String?,
     val formatLongName: String?,
-    val startTime: Double,
-    val duration: Double,
-    val size: Long,
-    val bitrate: Long,
+    val startTime: Double?,
+    val duration: Double?,
+    val size: Long?,
+    val bitrate: Long?,
     val tags: JsonElement?,
 
     val streams: List<StreamInformation>
@@ -45,11 +45,11 @@ internal data class MediaFormat(
     @SerialName("format_long_name")
     val formatLongName: String? = null,
     @SerialName("start_time")
-    val startTime: Double = 0.0,
-    val duration: Double = 0.0,
-    val size: Long = 0L,
+    val startTime: Double? = null,
+    val duration: Double? = null,
+    val size: Long? = null,
     @SerialName("bit_rate")
-    val bitrate: Long = 0L,
+    val bitrate: Long? = null,
     val tags: JsonElement? = null
 )
 
@@ -67,9 +67,11 @@ data class StreamInformation(
     val width: Int? = null,
     val height: Int? = null,
     @SerialName("bit_rate")
-    val bitrate: String = "",
+    val bitrate: String? = null,
     @SerialName("sample_rate")
     val sampleRate: String? = null,
+    @SerialName("sample_fmt")
+    val sampleFormat: String? = null,
     @SerialName("channel_layout")
     val channelLayout: String? = null,
     @SerialName("sample_aspect_ratio")

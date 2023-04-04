@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/ffmpegkit.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '12.1'
-    spec.dependency 'ffmpeg-kit-ios-https', '~> 5.1'
+    spec.dependency 'ffmpeg-kit-ios-full-gpl', '~> 5.1'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':ffmpegkit',
